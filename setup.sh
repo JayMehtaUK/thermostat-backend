@@ -1,2 +1,2 @@
-git pull git@github.com:JayMehtaUK/thermostat-backend.git
+git pull
 python3 src/app.py
