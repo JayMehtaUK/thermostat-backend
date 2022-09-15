@@ -18,9 +18,9 @@ class ThermostatController:
 
 
     def turn_heating_on(self):
-        GPIO.output(21, GPIO.LOW)
+        GPIO.output(21, GPIO.HIGH)
         print("Heating turned on")
 
     def turn_heating_off(self):
-        GPIO.output(21, GPIO.HIGH)
+        GPIO.output(21, GPIO.LOW)
         print("Heating turned off")
