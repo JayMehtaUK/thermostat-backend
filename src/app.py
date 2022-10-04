@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 from TargetTemperatureService.TargetTemperature import TargetTemperature
 from RoomTemperatureService.RoomTemperature import RoomTemperature
@@ -13,6 +13,19 @@ scheduler = BackgroundScheduler(daemon=True)
 scheduler.add_job(target_temperature_service.reach_target_temperature, 'interval', seconds=2)
 scheduler.add_job(room_temperature_service.poll_room_temperature, 'interval', seconds=2)
 scheduler.start()
+
+@app.route('/', methods=['GET'])
+def index():
+    if target_temperature_service.is_heating_on:
+        heating_status = "On"
+    else:
+        heating_status = "Off"
+
+    return render_template('index.html',
+                           heating_status=heating_status,
+                           room_temperature=room_temperature_service.get_room_temperature(),
+                           target_temperature=target_temperature_service.target_temperature)
+
 @app.route('/target-temperature', methods=['POST'])
 def target_temperature():
     data = request.form
@@ -27,4 +40,4 @@ def target_temperature():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080)
+    app.run(host='0.0.0.0',port=8080, debug=True)
