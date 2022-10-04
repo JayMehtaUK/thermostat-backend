@@ -1,2 +1,5 @@
 Flask~=2.2.2
 RPi.GPIO==0.7.1
+APScheduler~=3.9.1
+board~=1.0
+adafruit-circuitpython-dht==3.7.7
