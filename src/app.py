@@ -17,7 +17,7 @@ scheduler.start()
 def target_temperature():
     data = request.form
     print(data.get("target-temperature"))
-    target_temperature_service.target_temperature = int(data.get("target-temperature"))
+    target_temperature_service.target_temperature = float(data.get("target-temperature"))
     target_temperature_service.reach_target_temperature()
     return jsonify(success=True)
 
