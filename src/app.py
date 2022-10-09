@@ -17,26 +17,31 @@ scheduler.start()
 @app.route('/', methods=['GET'])
 def index():
     if target_temperature_service.is_heating_on:
-        heating_status = "On"
+        heating_status = "🔥"
     else:
-        heating_status = "Off"
+        heating_status = "❄"
 
     return render_template('index.html',
                            heating_status=heating_status,
                            room_temperature=room_temperature_service.get_room_temperature(),
                            target_temperature=target_temperature_service.target_temperature)
 
-@app.route('/target-temperature', methods=['POST'])
+@app.route('/', methods=['POST'])
 def target_temperature():
     data = request.form
     print(data.get("target-temperature"))
     target_temperature_service.target_temperature = float(data.get("target-temperature"))
     target_temperature_service.reach_target_temperature()
-    return jsonify(success=True)
-
-
-
-
+    #return jsonify(success=True)
+    # Ideally for an endpoint we wouldnt handl this here... Can refactor later
+    if target_temperature_service.is_heating_on:
+        heating_status = "🔥"
+    else:
+        heating_status = "❄"
+    return render_template('index.html',
+                           heating_status=heating_status,
+                           room_temperature=room_temperature_service.get_room_temperature(),
+                           target_temperature=target_temperature_service.target_temperature)
 
 
 if __name__ == '__main__':
