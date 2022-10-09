@@ -4,7 +4,7 @@ from RoomTemperatureService.RoomTemperature import RoomTemperature
 
 class TargetTemperature:
     def __init__(self, room_temperature_service: RoomTemperature):
-        self.target_temperature = 22
+        self.target_temperature = 16
         self.room_temperature_service = room_temperature_service
         self.thermostat_controller = ThermostatController()
         # Set the initial state so the logic for reaching target temp can work
