@@ -10,7 +10,7 @@ target_temperature_service = TargetTemperature(room_temperature_service)
 
 scheduler = BackgroundScheduler(daemon=True)
 # Likely need to increase the interval to a minute depending on design
-scheduler.add_job(target_temperature_service.reach_target_temperature, 'interval', seconds=2)
+scheduler.add_job(target_temperature_service.reach_target_temperature, 'interval', seconds=300)
 scheduler.add_job(room_temperature_service.poll_room_temperature, 'interval', seconds=2)
 scheduler.start()
 
