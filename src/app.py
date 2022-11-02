@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template, redirect
 from apscheduler.schedulers.background import BackgroundScheduler
 from TargetTemperatureService.TargetTemperature import TargetTemperature
 from RoomTemperatureService.RoomTemperature import RoomTemperature
@@ -32,17 +32,9 @@ def target_temperature():
     print(data.get("target-temperature"))
     target_temperature_service.target_temperature = float(data.get("target-temperature"))
     target_temperature_service.reach_target_temperature()
-    #return jsonify(success=True)
-    # Ideally for an endpoint we wouldnt handl this here... Can refactor later
-    if target_temperature_service.is_heating_on:
-        heating_status = "🔥"
-    else:
-        heating_status = "❄"
-    return render_template('index.html',
-                           heating_status=heating_status,
-                           room_temperature=room_temperature_service.get_room_temperature(),
-                           target_temperature=target_temperature_service.target_temperature)
+
+    return redirect('/')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
