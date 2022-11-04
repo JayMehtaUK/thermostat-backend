@@ -14,7 +14,7 @@ class TargetTemperature:
         print("Target Temperature Service Created")
 
     def reach_target_temperature(self):
-        room_temperature = self.room_temperature_service.get_room_temperature()
+        room_temperature = self.room_temperature_service.room_temperature
 
         if self.target_temperature > room_temperature:
             if not self.is_heating_on:
