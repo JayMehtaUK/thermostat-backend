@@ -23,7 +23,8 @@ def index():
 
     return render_template('index.html',
                            heating_status=heating_status,
-                           room_temperature=room_temperature_service.get_room_temperature(),
+                           room_temperature=room_temperature_service.room_temperature,
+                           room_humidity=room_temperature_service.room_humidity,
                            target_temperature=target_temperature_service.target_temperature)
 
 @app.route('/', methods=['POST'])
