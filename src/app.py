@@ -2,17 +2,22 @@ from flask import Flask, request, render_template, redirect
 from apscheduler.schedulers.background import BackgroundScheduler
 from TargetTemperatureService.TargetTemperature import TargetTemperature
 from RoomTemperatureService.RoomTemperature import RoomTemperature
+from TemperatureSchedulerService.TemperatureScheduler import TemperatureScheduler
 
 app = Flask(__name__)
 room_temperature_service = RoomTemperature()
 target_temperature_service = TargetTemperature(room_temperature_service)
 
-
+# Scheduler for running our background services
 scheduler = BackgroundScheduler(daemon=True)
 # Likely need to increase the interval to a minute depending on design
 scheduler.add_job(target_temperature_service.reach_target_temperature, 'interval', seconds=300)
 scheduler.add_job(room_temperature_service.poll_room_temperature, 'interval', seconds=2)
 scheduler.start()
+
+# Scheduler for running the heating a specific times
+temperature_schedule = TemperatureScheduler()
+temperature_schedule.create_schedule(target_temperature_service)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -26,6 +31,7 @@ def index():
                            room_temperature=room_temperature_service.room_temperature,
                            room_humidity=room_temperature_service.room_humidity,
                            target_temperature=target_temperature_service.target_temperature)
+
 
 @app.route('/', methods=['POST'])
 def target_temperature():

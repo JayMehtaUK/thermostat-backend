@@ -26,3 +26,7 @@ class TargetTemperature:
                 print(f'Heating turning off. Room Temp: {room_temperature} | Desired Temp: {self.target_temperature}')
                 self.thermostat_controller.turn_heating_off()
                 self.is_heating_on = False
+
+    def set_target_temperature(self, temperature):
+        self.target_temperature = temperature
+        self.reach_target_temperature()
