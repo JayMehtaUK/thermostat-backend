@@ -17,17 +17,16 @@ class TemperatureScheduler:
 
     def read_schedule(self, file):
         # TODO: Actually read this from a file
-        temp_schedule = [('30 8 * * MON,TUE,FRI', 20),
-                         ('30 10 * * MON,TUE,FRI', 15),
+        temp_schedule = [('0 8 * * MON,TUE,FRI', 18),
+                         ('0 11 * * MON,TUE,FRI', 14),
 
-                         ('0 7 * * WED,THU', 20),
-                         ('0 8 * * WED,THU', 15),
+                         ('0 6 * * WED,THU', 17),
+                         ('0 8 * * WED,THU', 14),
 
-                         ('30 9 * * SAT,SUN', 20),
-                         ('30 10 * * SAT,SUN', 15),
+                         ('0 9 * * SAT,SUN', 18),
+                         ('0 11 * * SAT,SUN', 14),
 
-                         ('0 0 * * *', minimum_temperature),
-                         ('0 1 * * *', minimum_temperature)]
+                         ('0 0 * * *', 14)]
 
         return temp_schedule
 
