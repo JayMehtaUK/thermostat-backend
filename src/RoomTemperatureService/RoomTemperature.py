@@ -14,7 +14,7 @@ class RoomTemperature:
             self.room_temperature = self.dhtDevice.temperature
             self.room_humidity = self.dhtDevice.humidity
         except RuntimeError:
-            # Errors happen fairly often, DHT's are hard to read, just keep goi$        print(error.args[0])
+            # Errors happen fairly often, DHT's are hard to read, just keep going
             pass
         except Exception as error:
             raise error
