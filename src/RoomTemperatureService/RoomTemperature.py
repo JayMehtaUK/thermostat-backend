@@ -9,7 +9,6 @@ class RoomTemperature:
     room_humidity = 0
 
     def poll_room_temperature(self):
-
         try:
             self.room_temperature = self.dhtDevice.temperature
             self.room_humidity = self.dhtDevice.humidity
@@ -18,4 +17,3 @@ class RoomTemperature:
             pass
         except Exception as error:
             raise error
-
