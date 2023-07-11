@@ -127,3 +127,11 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Pycharm
+.idea
+
+# Raspberry Pi Mock Package Imports
+adafruit_dht/
+board/
+RPi/
