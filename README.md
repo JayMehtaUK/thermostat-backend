@@ -16,3 +16,22 @@ graph LR;
     RaspberryPi --> DHT22;
     Relay --> Thermostat;
 ```
+
+## High Level Overview
+### Room Temperature Service
+The room temperature service provides functionality to continuously poll the DHT22 device to get an up to date reading for the current temperature and humidity.
+
+### Target Temperature Service
+The target temperature service provides functionality to a background service to continuously check if the current room temperature has reached the target temperature.
+
+If the target temperature has been met the heating is turned off. Otherwise, the heating is turned on (or stays on).
+
+### Thermostat Controller
+The thermostat controller provides an interface between the Raspberry Pi and the Relay that will bridge the cooling pins on the thermostat. We have abstracted this away and from the controllers point of view it is either turing the thermostat on or off. 
+
+### Temperature Scheduler Service
+> 📝 This is currently a work in progress
+
+The temperature scheduler service allows you to create custom schedules to turn the heating on or off using a list of CRON expressions. 
+
+Currently, these have been hardcoded in the service. However, at some point we can modify this to read in the schedule from an external source (such as a file or database). We can then provide another web page to configure the schedule and update it when required.
