@@ -1,5 +1,7 @@
 from flask import Flask, request, render_template, redirect
 from apscheduler.schedulers.background import BackgroundScheduler
+
+import config
 from TargetTemperatureService.TargetTemperature import TargetTemperature
 from RoomTemperatureService.RoomTemperature import RoomTemperature
 from TemperatureSchedulerService.TemperatureScheduler import TemperatureScheduler
@@ -16,8 +18,8 @@ scheduler.add_job(room_temperature_service.poll_room_temperature, 'interval', se
 scheduler.start()
 
 # Scheduler for running the heating a specific times
-temperature_schedule = TemperatureScheduler()
-temperature_schedule.create_schedule(target_temperature_service)
+temperature_schedule = TemperatureScheduler(target_temperature_service)
+temperature_schedule.create_schedule()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -41,6 +43,18 @@ def target_temperature():
     target_temperature_service.reach_target_temperature()
 
     return redirect('/')
+
+@app.route('/schedule', methods=['GET'])
+def schedule():
+    return render_template('schedule.html', schedule=temperature_schedule.read_schedule_raw(config.schedule_path))
+
+
+@app.route('/schedule', methods=['POST'])
+def save_schedule():
+    data = request.form.get('schedule').replace('\r','')
+    temperature_schedule.save_schedule(config.schedule_path, data)
+    temperature_schedule.update_schedule()
+    return redirect('/schedule')
 
 
 if __name__ == '__main__':
