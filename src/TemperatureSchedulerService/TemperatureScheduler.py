@@ -1,36 +1,28 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
-
-from config import minimum_temperature
+import csv
 
 
 class TemperatureScheduler:
 
     def create_schedule(self, target_temperature_service):
-        schedule_list = self.read_schedule("schedule.yaml")
+        schedule_list = self.read_schedule("TemperatureSchedulerService/resources/schedule.csv")
         scheduler = BackgroundScheduler(daemon=True)
 
         for cron, target_temperature in schedule_list:
-            scheduler.add_job(target_temperature_service.set_target_temperature, CronTrigger.from_crontab(cron), args=[target_temperature])
+            scheduler.add_job(target_temperature_service.set_target_temperature, CronTrigger.from_crontab(cron),
+                              args=[target_temperature])
 
         scheduler.start()
 
-    def read_schedule(self, file):
-        # TODO: Actually read this from a file
-        temp_schedule = [('0 8 * * MON,TUE,FRI', 18),
-                         ('0 11 * * MON,TUE,FRI', 14),
+    def read_schedule(self, filepath):
+        with open(filepath, 'r') as file:
+            reader = csv.reader(file, delimiter=";")
 
-                         ('0 6 * * WED,THU', 17),
-                         ('0 8 * * WED,THU', 14),
+            schedule = list(((row[0], float(row[1]))
+                             for row in reader))
 
-                         ('0 9 * * SAT,SUN', 18),
-                         ('0 11 * * SAT,SUN', 14),
-
-                         ('0 0 * * *', 14)]
-
-        return temp_schedule
-
-
+        return schedule
 
     def delete_schedule(self):
         pass

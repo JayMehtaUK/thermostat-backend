@@ -135,3 +135,6 @@ dmypy.json
 adafruit_dht/
 board/
 RPi/
+
+# Schedule
+schedule.csv
