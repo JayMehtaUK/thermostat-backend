@@ -1,6 +1,6 @@
 import unittest
-from RoomTemperatureService.RoomTemperature import RoomTemperature
-from TargetTemperatureService.TargetTemperature import TargetTemperature
+from src.RoomTemperatureService.RoomTemperature import RoomTemperature
+from src.TargetTemperatureService.TargetTemperature import TargetTemperature
 
 
 class TargetTemperatureTests(unittest.TestCase):
